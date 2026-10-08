@@ -1,7 +1,10 @@
 """
-Criteo preparation — Round 3 fixes.
-observable_view capacity uses full cost of most recent day
-(fixes chunk-boundary underestimation).
+Criteo data preparation (Stage 2, final evaluation)
+
+prepare()            raw Criteo TSV -> daily_cost.parquet + conversions.parquet
+observable_view()    leakage-safe 7-day view at the start of a decision day:
+                     only conversions reported before that day are visible
+realised_outcomes()  ground truth for one day, used for scoring only
 """
 
 from pathlib import Path
