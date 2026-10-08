@@ -1,7 +1,7 @@
 """
-Multi-Model Comparison — 6 Models
-Runs the same campaign scenarios through all models
-and compares outputs for thesis model comparison section.
+Multi-model comparison
+Runs the same five campaign scenarios through Claude Sonnet 4.6 (API)
+and six local models via Ollama, and compares their decisions.
 """
 
 import json
@@ -14,6 +14,13 @@ import os
 import anthropic
 
 load_dotenv()
+
+
+def _workspace_headers():
+    """Send the Anthropic workspace header only when ANTHROPIC_WORKSPACE_ID is set."""
+    workspace_id = os.getenv("ANTHROPIC_WORKSPACE_ID")
+    return {"anthropic-workspace-id": workspace_id} if workspace_id else None
+
 
 RESULTS_PATH = Path("results")
 RESULTS_PATH.mkdir(exist_ok=True)
@@ -115,9 +122,7 @@ def run_ollama(model_id, prompt, timeout=180):
 def run_claude(prompt):
     try:
         client = anthropic.Anthropic(
-            default_headers={
-                "anthropic-workspace-id": os.getenv("ANTHROPIC_WORKSPACE_ID")
-            }
+            default_headers=_workspace_headers()
         )
         start = time.time()
         response = client.messages.create(

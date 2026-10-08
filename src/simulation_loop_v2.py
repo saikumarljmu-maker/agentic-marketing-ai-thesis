@@ -1,7 +1,8 @@
 """
-Replay Simulation V2 — Round 3 fixes.
-budget_fraction stored with LLM decisions.
-Fallbacks cached correctly.
+Replay simulation (Stage 2, final evaluation)
+Replays the Criteo log day by day and scores six budget-allocation
+policies (LLM portfolio, Thompson sampling, rule-based, logged mix,
+uniform and the hindsight oracle) against what actually happened.
 """
 
 import json
@@ -237,7 +238,7 @@ class ReplaySimulationV2:
 
 
 if __name__ == "__main__":
-    logger.info("Starting Replay Simulation V2 (Round 3 fixes)...")
+    logger.info("Starting replay simulation (Stage 2)")
     sim = ReplaySimulationV2(n_seeds=3, use_llm=True,
                               lag_note=LAG_NOTE, run_name="v2")
     sim.run(budget_fractions=[0.5, 0.25, 0.125])
