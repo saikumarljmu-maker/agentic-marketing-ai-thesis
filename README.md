@@ -6,11 +6,11 @@
 
 MSc Data Science thesis · upGrad × Liverpool John Moores University · 2026
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)
 ![LLM](https://img.shields.io/badge/LLM-Claude%20Sonnet%204.6-D97757)
 ![Local models](https://img.shields.io/badge/local%20models-Ollama-000000)
 ![Data](https://img.shields.io/badge/data-Criteo%20Attribution-F48120)
-![Tests](https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white)
+[![tests](https://github.com/saikumarljmu-maker/agentic-marketing-ai-thesis/actions/workflows/tests.yml/badge.svg)](https://github.com/saikumarljmu-maker/agentic-marketing-ai-thesis/actions/workflows/tests.yml)
 
 </div>
 
@@ -164,8 +164,11 @@ agentic-marketing-ai/
 │   ├── simulation_loop.py         Stage 1 · rule-only loop
 │   └── model_comparison.py        7-model comparison
 │
-└── tests/
-    └── test_leakage.py            proves the agents cannot see future data
+├── tests/
+│   ├── test_leakage.py            proves the agents cannot see future data
+│   └── test_allocator.py          budget, capacity, protect/exclude and reproducibility checks
+│
+└── .github/workflows/tests.yml    runs the tests automatically on every push
 ```
 
 Generated folders (`data/`, `results/`, `logs/`) are git-ignored.
@@ -174,7 +177,7 @@ Generated folders (`data/`, `results/`, `logs/`) are git-ignored.
 
 ## 5. Quick start
 
-**Requirements:** Python 3.11 or newer, an [Anthropic API key](https://console.anthropic.com/) for the Claude agents, and (optionally) [Ollama](https://ollama.com) for the local-model comparison.
+**Requirements:** Python 3.12 or newer, an [Anthropic API key](https://console.anthropic.com/) for the Claude agents, and (optionally) [Ollama](https://ollama.com) for the local-model comparison.
 
 ```bash
 # 1. Get the code
