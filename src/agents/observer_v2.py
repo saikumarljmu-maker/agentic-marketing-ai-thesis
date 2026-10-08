@@ -1,6 +1,8 @@
 """
-Observer Agent V2 - Uses corrected Criteo data preparation
-Fixes: real calendar days, correct conversion counting, no fake ROAS
+Observer Agent (Stage 2, final evaluation)
+Loads the prepared daily cost and conversion tables produced by
+src/data/criteo_prep.py. Uses real calendar days and counts each
+distinct conversion once.
 """
 
 import pandas as pd

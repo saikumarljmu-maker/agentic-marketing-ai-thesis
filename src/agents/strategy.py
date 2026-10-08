@@ -14,6 +14,13 @@ import anthropic
 
 load_dotenv()
 
+
+def _workspace_headers():
+    """Send the Anthropic workspace header only when ANTHROPIC_WORKSPACE_ID is set."""
+    workspace_id = os.getenv("ANTHROPIC_WORKSPACE_ID")
+    return {"anthropic-workspace-id": workspace_id} if workspace_id else None
+
+
 LOGS_PATH = Path("logs")
 
 
@@ -26,9 +33,7 @@ class StrategyAgent:
 
     def __init__(self):
         self.client = anthropic.Anthropic(
-            default_headers={
-                "anthropic-workspace-id": os.getenv("ANTHROPIC_WORKSPACE_ID")
-            }
+            default_headers=_workspace_headers()
         )
         self.model = "claude-sonnet-4-6"
         self.recommendations = []

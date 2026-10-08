@@ -1,7 +1,16 @@
 """
-Portfolio Strategy Agent — Round 3 fixes.
-CI is now deterministic Gamma-posterior quantiles (scipy).
-budget_fraction stored with each decision.
+Portfolio Strategy Agent and Portfolio Allocator (Stage 2, final evaluation)
+
+PortfolioStrategyAgent
+    Shows Claude the top campaigns with a 90% credible interval for CPA
+    (deterministic Gamma-Poisson posterior quantiles) and asks for a
+    structured JSON strategy: stance, campaigns to protect or exclude,
+    and whether to escalate to a human. Falls back to a neutral strategy
+    if the reply cannot be used.
+
+PortfolioAllocator
+    Converts that strategy into a daily budget split, and also produces
+    the non-LLM baselines (logged mix, uniform, rule-based, Thompson sampling).
 """
 
 import json
@@ -16,17 +25,28 @@ import numpy as np
 from scipy import stats as scipy_stats
 
 load_dotenv()
+
+
+def _workspace_headers():
+    """Send the Anthropic workspace header only when ANTHROPIC_WORKSPACE_ID is set."""
+    workspace_id = os.getenv("ANTHROPIC_WORKSPACE_ID")
+    return {"anthropic-workspace-id": workspace_id} if workspace_id else None
+
+
 LOGS_PATH = Path("logs")
 LOGS_PATH.mkdir(exist_ok=True)
+
+# Claude Sonnet 4.6 list price (USD per million tokens) at the time of the
+# experiments. Used only to report the cost of each run; update if prices change.
+PRICE_INPUT_PER_MTOK = 3.0
+PRICE_OUTPUT_PER_MTOK = 15.0
 
 
 class PortfolioStrategyAgent:
 
     def __init__(self, top_n=25):
         self.client = anthropic.Anthropic(
-            default_headers={
-                "anthropic-workspace-id": os.getenv("ANTHROPIC_WORKSPACE_ID")
-            }
+            default_headers=_workspace_headers()
         )
         self.model = "claude-sonnet-4-6"
         self.top_n = top_n
@@ -158,8 +178,8 @@ Respond ONLY with this JSON (no markdown):
             strategy["input_tokens"] = response.usage.input_tokens
             strategy["output_tokens"] = response.usage.output_tokens
             strategy["cost_usd"] = round(
-                (response.usage.input_tokens * 3 +
-                 response.usage.output_tokens * 15) / 1_000_000, 6
+                (response.usage.input_tokens * PRICE_INPUT_PER_MTOK +
+                 response.usage.output_tokens * PRICE_OUTPUT_PER_MTOK) / 1_000_000, 6
             )
             strategy["fallback"] = False
 

@@ -1,7 +1,9 @@
 """
-Observer Agent - Phase 2
+Observer Agent (Stage 1 prototype)
 Reads the Criteo dataset, validates it, aggregates to daily
 campaign-level summaries, and flags anomalies.
+
+Superseded in the final evaluation by observer_v2.py.
 """
 
 import pandas as pd
