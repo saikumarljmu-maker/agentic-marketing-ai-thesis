@@ -1,6 +1,8 @@
 """
-Statistical analysis of V2 replay — Round 3 fixes.
-Adds: LLM vs rule_based, lag bootstrap CI, protection audit, fixed escalation audit.
+Statistical analysis of the Stage 2 replay results.
+
+Paired bootstrap confidence intervals with Holm correction, confidence
+calibration, escalation audit, protection audit and lag ablation.
 
 Usage:
     python -m src.evaluation.analyse_v2 --run v2

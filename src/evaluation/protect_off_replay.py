@@ -1,5 +1,5 @@
 """
-Protect-off replay — reproducibility fix.
+Protect-off replay.
 Replays saved LLM decisions twice using exactly the same data,
 days, budgets, seeds and allocator as the main run.
 The with-protection arm must reproduce Table 4.4 LLM row exactly.
