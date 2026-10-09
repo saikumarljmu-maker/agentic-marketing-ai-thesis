@@ -46,7 +46,7 @@ MSc Data Science thesis · upGrad × Liverpool John Moores University · 2026
 | **No look-ahead** | Agents only see conversions that had already been reported before the decision day. This is checked by automated tests (`tests/test_leakage.py`). |
 | **Same budget, same data** | Every strategy gets the same daily budget and the same campaigns. |
 | **Hindsight oracle** | An upper bound that allocates with perfect knowledge of the day's results. Every score is reported as **% of oracle conversions**. |
-| **Deterministic LLM** | `temperature = 0` for every LLM call, and LLM decisions are cached and logged, so runs can be replayed exactly. |
+| **Deterministic LLM** | `temperature = 0` for the Stage 2 Portfolio Strategy Agent, and LLM decisions are cached and logged, so runs can be replayed exactly. |
 | **Repeated runs** | 3 random seeds × 3 budget levels × every decision day, with bootstrap confidence intervals and Holm correction. |
 
 The project uses **public data only**. No client or company data is involved.
